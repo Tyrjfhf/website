@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrot Invasion</title>
+  <style>
+	body {
+      background-color: rgb(255, 188, 0);
+      margin: 0;
+	  font-family: "Arial", sans-serif;
+	  background-image: url('gradient.png');
+      background-size: cover;
+      background-position: center;
+	  background-attachment: fixed;
+      height: 500vh;
+    }
+	
+    /* CSS for dropdown menu */
+    .dropdown-container {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding: 0 20px;
+    }
+
+    .menu-toggle {
+      background-color: #007bff;
+      color: white;
+      padding: 20px 40px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 150px; /* Increased width */
+    }
+
+    .menu-toggle:hover {
+      background-color: #0056b3;
+    }
+
+    .menu {
+      background-color: #007bff;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 200px;
+      height: auto; /* Adjusted to auto height */
+      padding: 20px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      animation-duration: 0.5s;
+      opacity: 0; /* Initially hidden */
+    }
+
+    .menu.show {
+      display: block;
+      animation-name: fade-in;
+      opacity: 1; /* Make visible */
+    }
+
+    .menu.hide {
+      animation-name: fade-out;
+      opacity: 0; /* Hide after animation */
+    }
+
+    .menu a {
+      display: block;
+      color: black;
+      padding: 10px 0;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .menu a:hover {
+      color: rgb(255, 255, 255);
+    }
+
+    /* CSS for animations */
+    @keyframes slideInDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fade-out {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    .slide-in-down {
+      animation: slideInDown 0.5s ease-in-out forwards;
+    }
+
+    /* CSS for title */
+    h1 {
+      margin-top: 0;
+      padding-left: 20px;
+    }
+	
+	p1 {
+		
+	}
+  </style>
+</head>
+<body onclick="closeMenu()">
+  <div class="dropdown-container">
+    <h1>Download Carrot Invasion</h1>
+    <button class="menu-toggle" onclick="toggleMenu(event)">Menu</button>
+    <div class="menu" id="menu">
+      <a href="carrot invasition website.html">Home</a>
+      <a href="download page.html">Download</a>
+      <a href="account page.html">Account</a>
+      <!-- Add more menu items here -->
+    </div>
+  </div>
+  <!-- Add more content here -->
+  <p1>It is a game where you play as a carrot and you take over planets<br>there is an open world mutiplayer mode where you can take over planets from other people<br>the is also a coop mode where you can team up with you freinds and take over planets together</p1>
+
+  <script>
+    var menu = document.getElementById("menu");
+
+    function closeMenu() {
+      if (menu.classList.contains("show")) {
+        menu.classList.remove("show");
+        menu.classList.add("hide");
+        menu.classList.remove("slide-in-down");
+        setTimeout(function() {
+          menu.classList.remove('hide');
+        }, 500); // Wait for animation to complete before removing hide class
+      }
+    }
+
+    function toggleMenu(event) {
+      event.stopPropagation();
+      if (menu.classList.contains("show")) {
+        menu.classList.remove("show");
+        menu.classList.add("hide");
+        menu.classList.remove("slide-in-down");
+        setTimeout(function() {
+          menu.classList.remove('hide');
+        }, 500); // Wait for animation to complete before removing hide class
+      } else {
+        menu.classList.add("show");
+        menu.classList.remove("hide");
+        menu.classList.add("slide-in-down");
+      }
+    }
+  </script>
+</body>
+</html>

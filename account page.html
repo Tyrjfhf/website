@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Page</title>
+    <style>
+        body {
+            background-color: rgb(255, 188, 0);
+            margin: 0;
+            font-family: "Arial", sans-serif;
+            background-image: url('gradient.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 500vh;
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .menu-toggle {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 150px;
+        }
+
+        .menu-toggle:hover {
+            background-color: #0056b3;
+        }
+
+        .menu {
+            background-color: #007bff;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 200px;
+            height: auto;
+            padding: 20px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            animation-duration: 0.5s;
+            opacity: 0;
+        }
+
+        .menu.show {
+            display: block;
+            animation-name: fade-in;
+            opacity: 1;
+        }
+
+        .menu.hide {
+            animation-name: fade-out;
+            opacity: 0;
+        }
+
+        .menu a {
+            display: block;
+            color: black;
+            padding: 10px 0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: rgb(255, 255, 255);
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade-out {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .slide-in-down {
+            animation: slideInDown 0.5s ease-in-out forwards;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body onclick="closeMenu()">
+    <div class="dropdown-container">
+        <h1>Carrot Invasion</h1>
+        <button class="menu-toggle" onclick="toggleMenu(event)">Menu</button>
+        <div class="menu" id="menu">
+            <a href="carrot invasition website.html">Home</a>
+            <a href="download page.html">Download</a>
+            <a href="account page.html">Account</a>
+            <!-- Add more menu items here -->
+        </div>
+    </div>
+
+    <div class="account-container">
+        <h2>Poley ID</h2>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="button" onclick="login()">Login</button>
+			
+        </form>
+
+        <!-- Signup Form -->
+        <form id="signupForm" style="display: none;">
+            <label for="newUsername">New Username:</label>
+            <input type="text" id="newUsername" name="newUsername" required>
+
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+
+            <button type="button" onclick="signup()">Sign Up</button>
+        </form>
+
+        <p id="errorMessage" style="color: red; text-align: center;"></p>
+
+        <!-- Toggle between login and signup forms -->
+        <p style="text-align: center;">Don't have a Poley ID? <a href="javascript:void(0);" onclick="toggleForm()">Sign Up</a></p>
+    </div>
+
+    <script>
+        var menu = document.getElementById("menu");
+		var accounts = JSON.parse(localStorage.getItem("accounts")) || {};
+        //var accounts = {
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password",
+        //    "user1": "password"
+        //    // Add more accounts as needed
+        //};
+		
+		function saveAccounts() {
+            // Save accounts to localStorage
+            localStorage.setItem("accounts", JSON.stringify(accounts));
+        }
+
+        function closeMenu() {
+            if (menu.classList.contains("show")) {
+                menu.classList.remove("show");
+                menu.classList.add("hide");
+                menu.classList.remove("slide-in-down");
+                setTimeout(function () {
+                    menu.classList.remove('hide');
+                }, 500);
+            }
+        }
+
+        function toggleMenu(event) {
+            event.stopPropagation();
+            if (menu.classList.contains("show")) {
+                menu.classList.remove("show");
+                menu.classList.add("hide");
+                menu.classList.remove("slide-in-down");
+                setTimeout(function () {
+                    menu.classList.remove('hide');
+                }, 500);
+            } else {
+                menu.classList.add("show");
+                menu.classList.remove("hide");
+                menu.classList.add("slide-in-down");
+            }
+        }
+
+        function login() {
+            var usernameInput = document.getElementById("username");
+			var passwordInput = document.getElementById("password");
+			var errorMessage = document.getElementById("errorMessage");
+
+            var storedPassword = accounts[usernameInput.value];
+
+            if (usernameInput.value && passwordInput.value && storedPassword && passwordInput.value === storedPassword) {
+				// Successful login
+				alert("Login successful!");
+			} else {
+				// Failed login
+				errorMessage.textContent = "Invalid username or password";
+			}
+        }
+
+        function signup() {
+            var newUsernameInput = document.getElementById("newUsername");
+            var newPasswordInput = document.getElementById("newPassword");
+            var errorMessage = document.getElementById("errorMessage");
+
+            if (!accounts[newUsernameInput.value]) {
+                // Account does not exist, proceed with signup
+                accounts[newUsernameInput.value] = newPasswordInput.value;
+                alert("Signup successful!");
+                toggleForm(); // Switch back to login form after signup
+            } else {
+                // Account already exists
+                errorMessage.textContent = "Username already exists. Please choose a different one.";
+            }
+        }
+
+        function toggleForm() {
+            var loginForm = document.getElementById("loginForm");
+            var signupForm = document.getElementById("signupForm");
+
+            // Toggle between login and signup forms
+            if (loginForm.style.display === "none") {
+                loginForm.style.display = "block";
+                signupForm.style.display = "none";
+            } else {
+                loginForm.style.display = "none";
+                signupForm.style.display = "block";
+            }
+
+            // Clear error message on form switch
+            document.getElementById("errorMessage").textContent = "";
+			saveAccounts(); // Save accounts after signup
+        }
+    </script>
+</body>
+
+</html>
